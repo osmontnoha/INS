@@ -1,0 +1,256 @@
+1. CaesarCipher.java 
+ 
+import java.util.Scanner; 
+class CeaserCipher { 
+    static String encryptCaeser(String message1, int key1){ 
+        char ch; 
+        String encryptedMessage = " "; 
+        for ( int i = 0; i < message1.length();++i){ 
+            ch = message1.charAt(i); 
+            if ( ch >= 'a' && ch <= 'z'){ 
+                ch = (char) (ch + key1); 
+                if ( ch > 'z'){ 
+                    ch = (char) (ch - 'z' + 'a' - 1); 
+                } 
+                encryptedMessage += ch; 
+            } else if (ch >= 'A' && ch <= 'Z'){ 
+                ch = (char) (ch + key1); 
+                if ( ch > 'Z'){ 
+                    ch = (char) ( ch - 'Z' + 'A' - 1); 
+                } 
+
+                encryptedMessage += ch; 
+            }else { 
+                encryptedMessage += ch; 
+            } 
+        } 
+        return encryptedMessage; 
+    } 
+    static String decryptCaesar(String message1, int key1){ 
+        char ch; 
+        String decryptedMessage = " "; 
+        for ( int i = 0; i < message1.length(); ++i){ 
+            ch = message1.charAt(i); 
+            if ( ch >= 'a' && ch <= 'z'){ 
+                ch = (char) (ch - key1); 
+                if ( ch < 'a'){ 
+                    ch= (char) (ch + 'z' - 'a' + 1); 
+                } 
+                decryptedMessage += ch; 
+            } else if ( ch >= 'A' && ch <= 'Z'){ 
+                ch = (char) (ch - key1); 
+                if ( ch < 'A'){ 
+                    ch = (char) ( ch + 'Z' - 'A' + 1); 
+                } 
+                decryptedMessage += ch; 
+            } 
+            else { 
+                decryptedMessage += ch; 
+            } 
+        } 
+        return decryptedMessage; 
+    } 
+    public static void main(String[] args) { 
+ 
+        String plainText; 
+        int key; 
+        String CipherText; 
+        Scanner sc = new Scanner(System.in); 
+        System.out.println("Enter a message to encrypt: "); 
+        plainText = sc.nextLine(); 
+        System.out.println("Enter key: "); 
+        key = sc.nextInt(); 
+        CipherText = encryptCaeser(plainText, key); 
+        System.out.println("Cipher Text= " + CipherText); 
+        System.out.println("Original Text=" + decryptCaesar(CipherText, key)); 
+    } 
+}
+==================================================================================================
+2. MonoalphabeticCipher.java 
+ 
+import java.util.Scanner; 
+public class MonoalphabetCipher { 
+    public static void main(String[] args) { 
+        final char RALPHABETS[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}; 
+        final char MALPHABETS[] = {'M','U','A','L','V','O','Z','K','R','N','J','X','Q','D','F','S','H','P','E','B','C','T','I','W','Y','G'}; 
+       Scanner sc = new Scanner(System.in); 
+        String pltext; 
+        char citext[] = new char[20]; 
+        char detext[] = new char[20]; 
+        int i,l; 
+        System.out.print("Enter Plain Text: "); 
+        pltext = sc.nextLine(); 
+        pltext = pltext.toLowerCase(); 
+        l = (pltext.length()); 
+        for ( i=0;i< l;i++){ 
+            for (int j = 0; j < 26; j++){ 
+                if (RALPHABETS[j] == pltext.charAt(i)){ 
+                    citext[i] = MALPHABETS[j]; 
+                    break; 
+                } 
+            } 
+        } 
+        System.out.print("Cipher Text : "); 
+        for ( i = 0; i < l;i++){ 
+            System.out.print(citext[i]); 
+        } 
+        String b = new String(citext); 
+        for ( i = 0; i < l; i++){ 
+            for (int  j = 0; j < 26; j++){ 
+                if (MALPHABETS[j]== b.charAt(i)){ 
+                    detext[i] = RALPHABETS[j]; 
+                    break; 
+                } 
+            } 
+        } 
+        System.out.println("\nPlain Text :\n"); 
+        for ( i = 0;i < l;i++){ 
+            System.out.print(detext[i]); 
+        } }}
+========================================================================================
+3. Rail Fence Cipher 
+ 
+import java.util.*; 
+class RailFenceB { 
+    String Encryption (String plainText, int depth) throws Exception{ 
+        int r = depth, len = plainText.length(); 
+        int c = len/depth; 
+        c= c+1; 
+        char mat[][]= new char[r][c]; 
+        int k =0; 
+        String cipherText =""; 
+        for(int i = 0; i< c;i++){ 
+            for(int j =0;j < r;j++){ 
+                if(k != len){ 
+                    mat[j][i]= plainText.charAt(k++); 
+                    System.out.println("mat["+j+"]["+i+"]= "+mat[j][i]); 
+                } 
+            } 
+        } 
+        for(int i = 0; i < r;i++){ 
+            for(int j=0;j<c;j++){ 
+                cipherText += mat[i][j]; 
+            } 
+        } 
+        return cipherText; 
+    } 
+    String Decryption(String cipherText , int depth) throws Exception{ 
+        int r = depth, len = cipherText.length(); 
+        int c = len/depth; 
+        char mat[][]= new char[r][c]; 
+        int k = 0; 
+        String plaiText = ""; 
+        for (int i = 0; i< r;i++){ 
+            for(int j =0;j < c;j++){ 
+                mat[i][j] = cipherText.charAt(k++); 
+                System.out.println("mat["+i+"]["+j+"]= "+mat[i][j]); 
+            } 
+        } 
+        for(int i = 0; i < c;i++){ 
+            for(int j=0;j<r;j++){ 
+                plaiText += mat[j][i]; 
+            } 
+        } 
+        return plaiText; 
+    } 
+} 
+class Railfence { 
+    public static void main(String[] args) throws Exception{ 
+        Scanner sc = new Scanner(System.in); 
+        int depth; 
+         
+        String plainText, cipherText, decryptedText; 
+         
+        System.out.println("Enter Plain text: "); 
+        plainText = sc.nextLine(); 
+         
+        System.out.println("Enter depth(No of Rails) for Encryption: "); 
+        depth = sc.nextInt(); 
+         
+        RailFenceB rf = new RailFenceB(); 
+        cipherText = rf.Encryption(plainText, depth); 
+        System.out.println("Encrypted Text is :\n"+ cipherText);    
+        decryptedText = rf.Decryption(cipherText, depth); 
+        System.out.println("Decrypted Text Is :\n"+ decryptedText); 
+    } 
+}
+=================================================================================================
+4. Simple Columnar Technique 
+ 
+ 
+import java.io.*; 
+import java.util.Scanner; 
+class SCT { 
+    public static void main(String[] args) throws Exception{ 
+        Scanner sc = new Scanner(System.in); 
+        System.out.println("Enter Your Plain Text: "); 
+         
+        String accept = sc.nextLine(); 
+        System.out.println("Enter the no of rows "); 
+        int r = Integer.parseInt(sc.nextLine()); 
+        System.out.println("Enter the no of cols "); 
+        int c = Integer.parseInt(sc.nextLine()); 
+         
+        int count = 0; 
+        char cont[][]= new char[r][c]; 
+         
+        for(int i=0;i<r;i++){ 
+            for(int j=0; j< c;j++){ 
+                if(count>=accept.length()){ 
+                    cont[i][j]=' '; 
+                }else{ 
+                    cont[i][j]=accept.charAt(count); 
+                     System.out.println("cont[][]:"+(accept.charAt(count))); 
+                    count++; 
+                } 
+            } 
+        } 
+ 
+        for(int i=0; i< r; i++){ 
+            for(int j = 0; j < c;j++){ 
+                System.out.print("\t" + cont[i][j]); 
+            } 
+            System.out.print("\n"); 
+        } 
+         
+        System.out.println("\nEnter the order of cols you want to view there "); 
+        int choice[]= new int[c]; 
+        for( int k=0;k<c;k++){ 
+            System.out.println("Choice "+ k+ "->"); 
+            choice[k] = Integer.parseInt(sc.nextLine()); 
+        } 
+         
+        System.out.println("\nCipher text in matrix is ->"); 
+        String cipher =""; 
+        for(int j=0;j<c;j++){ 
+            int k= choice[j]; 
+            for(int i = 0;i<r;i++){ 
+                cipher += cont[i][k]; 
+            } 
+        } 
+        System.out.println(cipher); 
+    } 
+}
+===================================================================
+5. Vernam Cipher 
+ 
+import java.lang.Math; 
+public class Vernam { 
+    public static void main(String[] args) { 
+        String Plaintext = new String("computercian"); 
+        char[] arText = Plaintext.toCharArray(); 
+        String key = new String("ABCDEFGXYZHIJ"); 
+        char[] arKey = key.toCharArray(); 
+        char[] Ciphertext = new char[13]; 
+        System.out.println("Encoded"+ Plaintext + " to be... "); 
+         for(int i =0; i<arText.length;i++){ 
+            Ciphertext[i] =(char) (arText[i] ^ arKey[i]); 
+            System.out.println(Ciphertext[i]); 
+        } 
+        System.out.println("Decoded to be... "); 
+        for(int i = 0; i<Ciphertext.length;i++){ 
+            char temp = (char)(Ciphertext[i] ^ arKey[i]); 
+            System.out.print(temp); 
+        } 
+    } 
+} 
